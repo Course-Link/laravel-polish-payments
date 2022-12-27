@@ -1,11 +1,12 @@
 <?php
 
 use DH\PolishPayments\GatewayManager;
+use DH\PolishPayments\Gateways\PayNow;
 
-it('resolves gateway manager', function () {
-    $manager = resolve(GatewayManager::class);
+it('resolves gateway by short name', function () {
+    $manager = getGatewayManager();
 
+    $gateway = $manager->gateway('paynow');
 
-
-    dd($manager);
+    expect($gateway)->toBeInstanceOf(PayNow\Gateway::class);
 });

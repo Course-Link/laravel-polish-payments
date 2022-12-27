@@ -3,7 +3,6 @@
 namespace DH\PolishPayments\Gateways\Przelewy24;
 
 use DH\PolishPayments\Gateways\Przelewy24\Messages\PurchaseRequest;
-use DH\PolishPayments\Gateways\Przelewy24\Messages\PurchaseResponse;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\RequestInterface;
 

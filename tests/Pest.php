@@ -1,9 +1,15 @@
 <?php
 
 use DH\PolishPayments\Common\Customer;
+use DH\PolishPayments\GatewayManager;
 use DH\PolishPayments\Tests\TestCase;
 
 uses(TestCase::class)->in('.');
+
+function getGatewayManager(): GatewayManager
+{
+    return resolve(GatewayManager::class);
+}
 
 function setupCustomer(): Customer
 {

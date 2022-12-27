@@ -1,20 +1,25 @@
 <?php
 
-use DH\PolishPayments\GatewayManager;
 use DH\PolishPayments\Gateways\PayNow\Gateway;
 use DH\PolishPayments\Gateways\PayNow\Messages\CompletePurchaseRequest;
 use DH\PolishPayments\Gateways\PayNow\Messages\PurchaseRequest;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 
-beforeEach(function () {
-    $this->manager = resolve(GatewayManager::class);
-    $this->gateway = $this->manager->gateway(Gateway::class, [
-        'api_key' => 'TEST',
-        'signature_key' => 'Test',
-        'test_mode' => true,
-    ]);
-    $this->customer = setupCustomer();
+function setupGateway(array $config = []): Gateway
+{
+    $manager = getGatewayManager();
+    return $manager->gateway(Gateway::class, $config);
+}
+
+it('resolves a paynow gateway', function () {
+    $gateway = setupGateway();
+
+    expect($gateway)->toBeInstanceOf(Gateway::class);
+});
+
+it('supports payments', function (){
+
 });
 
 it('can make a purchase', function () {
