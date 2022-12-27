@@ -4,8 +4,8 @@ This package allows you to take advantage of Polish payment systems.
 
 ## Supported Gateways
 
-* Paynow
-* PayU
-* Przelewy24
-* Tpay
+* Paynow (WIP)
+* PayU (WIP)
+* Przelewy24 (WIP)
+* Tpay (WIP)
 

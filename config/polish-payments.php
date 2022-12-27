@@ -20,6 +20,14 @@ return [
     |
     */
     'gateways' => [
+        'imoje' => [
+            'driver' => DH\PolishPayments\Gateways\imoje\Gateway::class,
+            'auth_token' => env('IMOJE_AUTH_TOKEN'),
+            'pos_key' => env('IMOJE_POS_KEY'),
+            'pos_id' => env('IMOJE_POS_ID'),
+            'merchant_id' => env('IMOJE_MERCHANT_ID'),
+            'test_mode' => env('IMOJE_TEST_MODE', false),
+        ],
         'paynow' => [
             'driver' => DH\PolishPayments\Gateways\PayNow\Gateway::class,
             'api_key' => env('PAYNOW_API_KEY'),
@@ -44,8 +52,8 @@ return [
         ],
         'tpay' => [
             'driver' => DH\PolishPayments\Gateways\Tpay\Gateway::class,
-            'api_key' => env('TPAY_API_KEY'),
-            'api_password' => env('TPAY_API_PASSWORD'),
+            'client_id' => env('TPAY_CLIENT_ID'),
+            'client_secret' => env('TPAY_CLIENT_SECRET'),
             'security_code' => env('TPAY_SECURITY_CODE'),
             'merchant_id' => env('TPAY_MERCHANT_ID'),
             'test_mode' => env('TPAY_TEST_MODE', false),

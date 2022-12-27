@@ -12,26 +12,15 @@ class PurchaseRequest extends AbstractRequest
     public function getData(): array
     {
         return [
-            'method' => 'create',
-            'test_mode' => $this->getTestMode(),
-            'merchant_id' => $this->getMerchantId(),
-            'name' => $this->getCustomer()->getName(),
-            'address' => $this->getCustomer()->getAddress(),
-            'email' => $this->getCustomer()->getEmail(),
-            'city' => $this->getCustomer()->getCity(),
-            'zip' => $this->getCustomer()->getPostcode(),
-            'country' => $this->getCustomer()->getCountry(),
-            'phone' => $this->getCustomer()->getPhone(),
-            'api_password' => $this->getApiPassword(),
             'amount' => $this->getAmount(),
             'description' => $this->getDescription(),
-            'crc' => $this->getTransactionId(),
-            'md5sum' => $this->getMd5Sum(),
-            'group' => (int)$this->getPaymentMethod(),
-            'language' => $this->getLanguage(),
-            'result_url' => 'https://shop.tpay.com/shop-endpoint',
-            'return_url' => 'https://shop.tpay.com/success',
-            'return_error_url' => 'https://shop.tpay.com/error',
+            'payer' => [
+                'email' => $this->getCustomer()->getEmail(),
+                'name' => $this->getCustomer()->getName(),
+            ],
+            'pay' => [
+                'groupId' => 150,
+            ]
         ];
     }
 
@@ -50,8 +39,10 @@ class PurchaseRequest extends AbstractRequest
     {
         $httpResponse = $this->httpClient->request(
             'post',
-            $this->endpoint . $this->getApiKey() . '/transaction/create',
-            [],
+            $this->getEndpoint() . '/transactions',
+            [
+                'Authorization' => 'Bearer ' . $this->getToken(),
+            ],
             $data,
         );
 

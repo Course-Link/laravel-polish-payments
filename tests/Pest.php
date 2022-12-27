@@ -12,5 +12,9 @@ function setupCustomer(): Customer
         'firstName' => 'John',
         'lastName' => 'Doe',
         'email' => 'johnny@example.com',
+        'address' => 'Testowa 25',
+        'city' => 'Warszawa',
+        'postcode' => '00-000',
+        'country' => 'PL'
     ]);
 }

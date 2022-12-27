@@ -14,6 +14,7 @@ class PurchaseRequest extends AbstractRequest
     {
         return [
             'amount' => $this->getAmountInteger(),
+            'currency' => $this->getCurrency(),
             'description' => $this->getDescription(),
             'continueUrl' => $this->getReturnUrl(),
             'externalId' => $this->getTransactionId(),
