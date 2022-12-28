@@ -1,6 +1,6 @@
 <?php
 
-namespace DH\PolishPayments\Common;
+namespace DH\PolishPayments\OAuth;
 
 trait HasOAuth2Token
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace DH\PolishPayments\Client;
+namespace DH\PolishPayments\Http;
 
 use Illuminate\Support\Facades\Http;
 use Omnipay\Common\Http\ClientInterface;

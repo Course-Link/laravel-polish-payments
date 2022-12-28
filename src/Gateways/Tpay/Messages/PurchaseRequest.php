@@ -24,17 +24,6 @@ class PurchaseRequest extends AbstractRequest
         ];
     }
 
-
-    protected function getMd5Sum(): string
-    {
-        return md5(implode('&', [
-            $this->getMerchantId(),
-            $this->getAmount(),
-            $this->getTransactionId(),
-            $this->getSecurityCode(),
-        ]));
-    }
-
     public function sendData($data): PurchaseResponse
     {
         $httpResponse = $this->httpClient->request(

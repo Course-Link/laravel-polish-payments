@@ -2,9 +2,10 @@
 
 namespace DH\PolishPayments;
 
-use DH\PolishPayments\Client\LaravelHttpClient;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Support\Str;
 use Omnipay\Common\GatewayFactory;
+use Omnipay\Common\Http\ClientInterface;
 
 class GatewayManager
 {
@@ -21,23 +22,25 @@ class GatewayManager
     protected ?string $gateway = null;
 
     public function __construct(
-        protected Application       $app,
-        protected GatewayFactory    $factory,
-        protected LaravelHttpClient $httpClient,
-        protected array             $defaults = []
+        protected Application     $app,
+        protected GatewayFactory  $factory,
+        protected ClientInterface $httpClient,
+        protected array           $defaults = []
     )
     {
     }
 
     public function gateway($class, array $config = [])
     {
-        if (!isset($this->gateways[$class])) {
-            $gateway = $this->factory->create($class, $this->httpClient, $this->app['request']);
-            $gateway->initialize(array_merge($this->getConfig($class), $config));
-            $this->gateways[$class] = $gateway;
+        $gateway = $this->factory->create($class, $this->httpClient, $this->app['request']);
+        $name = $gateway->getName();
+
+        if (!isset($this->gateways[$name])) {
+            $gateway->initialize(array_merge($this->getConfig($name), $config));
+            $this->gateways[$name] = $gateway;
         }
 
-        return $this->gateways[$class];
+        return $this->gateways[$name];
     }
 
     protected function getConfig($name): array

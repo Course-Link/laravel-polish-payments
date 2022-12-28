@@ -13,6 +13,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | HTTP Client
+    |--------------------------------------------------------------------------
+    |
+    | Here you can specify the gateway that the facade should use by default.
+    |
+    */
+    'http_client' => DH\PolishPayments\Http\LaravelHttpClient::class,
+
+    /*
+    |--------------------------------------------------------------------------
     | Gateway specific settings
     |--------------------------------------------------------------------------
     |
@@ -57,6 +67,15 @@ return [
             'security_code' => env('TPAY_SECURITY_CODE'),
             'merchant_id' => env('TPAY_MERCHANT_ID'),
             'test_mode' => env('TPAY_TEST_MODE', false),
+            'verify_ip_address' => env('TPAY_VERIFY_IP_ADDRESS', true),
+            'notification_ip_addresses' => [
+                '195.149.229.109',
+                '148.251.96.163',
+                '178.32.201.77',
+                '46.248.167.59',
+                '46.29.19.106',
+                '176.119.38.175',
+            ]
         ]
     ],
 ];

@@ -3,7 +3,7 @@
 namespace DH\PolishPayments\Gateways\Tpay\Messages;
 
 use DH\PolishPayments\Common\HasLanguage;
-use DH\PolishPayments\Common\HasOAuth2Token;
+use DH\PolishPayments\OAuth\HasOAuth2Token;
 use DH\PolishPayments\Gateways\Tpay\HasTpayCredentials;
 use Omnipay\Common\Message\AbstractRequest as BaseRequest;
 

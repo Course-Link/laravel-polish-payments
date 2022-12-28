@@ -10,19 +10,19 @@ function setupGateway(array $config = []): Gateway
 }
 
 it('resolves payu gateway', function () {
-    $gateway = setupGateway();
+    $gateway = setupTpayGateway();
 
     expect($gateway)->toBeInstanceOf(Gateway::class);
 });
 
 it('supports purchase', function () {
-    $gateway = setupGateway();
+    $gateway = setupTpayGateway();
 
     expect($gateway->supportsPurchase())->toBeTrue();
 });
 
 it('can make a purchase', function () {
-    $gateway = setupGateway([
+    $gateway = setupTpayGateway([
         'pos_id' => 300746,
         'signature_key' => 'b6ca15b0d1020e8094d9b5f8d163db54',
         'client_id' => '300746',

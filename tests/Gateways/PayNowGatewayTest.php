@@ -13,7 +13,7 @@ function setupGateway(array $config = []): Gateway
 }
 
 it('resolves a paynow gateway', function () {
-    $gateway = setupGateway();
+    $gateway = setupTpayGateway();
 
     expect($gateway)->toBeInstanceOf(Gateway::class);
 });

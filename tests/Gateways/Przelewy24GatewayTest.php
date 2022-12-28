@@ -10,13 +10,13 @@ function setupGateway(array $config = []): Gateway
 }
 
 it('resolves przelewy24 gateway', function () {
-   $gateway = setupGateway();
+   $gateway = setupTpayGateway();
 
    expect($gateway)->toBeInstanceOf(Gateway::class);
 });
 
 it('supports purchase', function () {
-    $gateway = setupGateway();
+    $gateway = setupTpayGateway();
 
     expect($gateway->supportsPurchase())->toBeTrue();
 });
