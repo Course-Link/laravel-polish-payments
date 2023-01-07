@@ -1,9 +1,9 @@
 <?php
 
-namespace DH\PolishPayments;
+namespace CourseLink\Payments;
 
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Support\Str;
+use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\GatewayFactory;
 use Omnipay\Common\Http\ClientInterface;
 
@@ -30,8 +30,9 @@ class GatewayManager
     {
     }
 
-    public function gateway($class, array $config = [])
+    public function gateway($class, array $config = []): AbstractGateway
     {
+        $class = $class ?: $this->getDefaultGateway();
         $gateway = $this->factory->create($class, $this->httpClient, $this->app['request']);
         $name = $gateway->getName();
 
@@ -47,7 +48,12 @@ class GatewayManager
     {
         return array_merge(
             $this->defaults,
-            $this->app['config']->get('polish-payments.gateways.' . $name, [])
+            $this->app['config']->get('omnipay.gateways.' . $name, [])
         );
+    }
+
+    public function getDefaultGateway(): string
+    {
+        return $this->app['config']['omnipay.default'];
     }
 }

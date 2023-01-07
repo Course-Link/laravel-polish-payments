@@ -1,0 +1,31 @@
+{
+  "order": {
+    "orderId": "NV61K1D7P4230106GUEST000P01",
+    "orderCreateDate": "2023-01-06T23:56:22.234+01:00",
+    "notifyUrl": "http://cvpdev.azuretest.pl/test2",
+    "customerIp": "127.0.0.1",
+    "merchantPosId": "300746",
+    "description": "Ebook",
+    "currencyCode": "PLN",
+    "totalAmount": "9999",
+    "buyer": {
+      "customerId": "guest",
+      "email": "johnny@example.com",
+      "firstName": "John",
+      "lastName": "Doe",
+      "language": "pl"
+    },
+    "payMethod": {
+      "amount": "9999",
+      "type": "PBL"
+    },
+    "status": "COMPLETED"
+  },
+  "localReceiptDateTime": "2023-01-06T23:56:28.360+01:00",
+  "properties": [
+    {
+      "name": "PAYMENT_ID",
+      "value": "5005335321"
+    }
+  ]
+}

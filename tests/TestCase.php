@@ -1,8 +1,8 @@
 <?php
 
-namespace DH\PolishPayments\Tests;
+namespace CourseLink\Payments\Tests;
 
-use DH\PolishPayments\PolishPaymentsServiceProvider;
+use CourseLink\Payments\OmnipayServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -13,7 +13,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            PolishPaymentsServiceProvider::class,
+            OmnipayServiceProvider::class,
         ];
     }
 
