@@ -15,3 +15,8 @@ composer require course-link/laravel-polish-payments
 
 ## Configuration
 
+### Publishing the config file
+
+```bash
+php artisan vendor:publish --tag=omnipay-config
+```
