@@ -6,7 +6,7 @@ use CourseLink\Payments\Events\NotificationHandled;
 use CourseLink\Payments\Events\PurchaseCompleted;
 use CourseLink\Payments\GatewayManager;
 use Illuminate\Routing\Controller;
-use Omnipay\Common\Exception\RuntimeException;
+use InvalidArgumentException;
 use Omnipay\Common\Message\NotificationInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,8 +18,8 @@ class NotificationController extends Controller
     ): Response
     {
         try {
-            $gateway = $gatewayManager->gateway($gateway);
-        } catch (RuntimeException) {
+            $gateway = $gatewayManager->driver($gateway);
+        } catch (InvalidArgumentException) {
             return $this->missingMethod();
         }
 
@@ -31,7 +31,8 @@ class NotificationController extends Controller
 
         if (
             $notification->getTransactionStatus() === NotificationInterface::STATUS_COMPLETED &&
-            $gateway->supportsCompletePurchase()
+            $gateway->supportsCompletePurchase() &&
+            config('omnipay.auto_payment_completion')
         ) {
             $completePurchaseResponse = $gateway->completePurchase($notification->getData())->send();
 

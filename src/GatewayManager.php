@@ -2,58 +2,66 @@
 
 namespace CourseLink\Payments;
 
-use Illuminate\Contracts\Foundation\Application;
-use Omnipay\Common\AbstractGateway;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Manager;
+use Illuminate\Support\Str;
+use Omnipay\Common\Exception\RuntimeException;
 use Omnipay\Common\GatewayFactory;
 use Omnipay\Common\Http\ClientInterface;
+use InvalidArgumentException;
 
-class GatewayManager
+class GatewayManager extends Manager
 {
-    /**
-     * Registered gateways
-     * @var array
-     */
-    protected array $gateways = [];
-
-    /**
-     * Current gateway
-     * @var string|null
-     */
-    protected ?string $gateway = null;
-
     public function __construct(
-        protected Application     $app,
+        Container                 $container,
         protected GatewayFactory  $factory,
-        protected ClientInterface $httpClient,
-        protected array           $defaults = []
+        protected ClientInterface $httpClient
     )
     {
+        parent::__construct($container);
     }
 
-    public function gateway($class, array $config = []): AbstractGateway
+    public function getDefaultDriver()
     {
-        $class = $class ?: $this->getDefaultGateway();
-        $gateway = $this->factory->create($class, $this->httpClient, $this->app['request']);
-        $name = $gateway->getName();
+        return $this->config->get('omnipay.default');
+    }
 
-        if (!isset($this->gateways[$name])) {
-            $gateway->initialize(array_merge($this->getConfig($name), $config));
-            $this->gateways[$name] = $gateway;
+    public function driver($driver = null, array $config = [])
+    {
+        $driver = $driver ?: $this->getDefaultDriver();
+
+        if (is_null($driver)) {
+            throw new InvalidArgumentException(sprintf(
+                'Unable to resolve NULL driver for [%s].', static::class
+            ));
         }
 
-        return $this->gateways[$name];
+        if (!isset($this->drivers[$driver])) {
+            $this->drivers[$driver] = $this->createDriver($driver, $config);
+        }
+
+        return $this->drivers[$driver];
+    }
+
+    protected function createDriver($driver, array $config = [])
+    {
+        try {
+            $gateway = $this->factory->create($driver, $this->httpClient, $this->container['request']);
+            $name = $gateway->getName();
+        } catch (RuntimeException) {
+            throw new InvalidArgumentException("Driver [$driver] not supported.");
+        }
+
+        if (!isset($this->drivers[$name])) {
+            $gateway->initialize(array_merge($this->getConfig($driver), $config));
+            $this->drivers[$name] = $gateway;
+        }
+
+        return $this->drivers[$name];
     }
 
     protected function getConfig($name): array
     {
-        return array_merge(
-            $this->defaults,
-            $this->app['config']->get('omnipay.gateways.' . $name, [])
-        );
-    }
-
-    public function getDefaultGateway(): string
-    {
-        return $this->app['config']['omnipay.default'];
+        return $this->config->get('omnipay.gateways.' . $name, []);
     }
 }

@@ -3,23 +3,23 @@
 it('resolves gateway by short name', function () {
     $manager = getGatewayManager();
 
-    $gateway = $manager->gateway('imoje');
+    $gateway = $manager->driver('imoje');
 
     expect($gateway)->toBeInstanceOf(Omnipay\imoje\Gateway::class);
 
-    $gateway = $manager->gateway('Paynow');
+    $gateway = $manager->driver('Paynow');
 
     expect($gateway)->toBeInstanceOf(Omnipay\Paynow\Gateway::class);
 
-    $gateway = $manager->gateway('PayU');
+    $gateway = $manager->driver('PayU');
 
     expect($gateway)->toBeInstanceOf(Omnipay\PayU\Gateway::class);
 
-    $gateway = $manager->gateway('Przelewy24');
+    $gateway = $manager->driver('Przelewy24');
 
     expect($gateway)->toBeInstanceOf(Omnipay\Przelewy24\Gateway::class);
 
-    $gateway = $manager->gateway('Tpay');
+    $gateway = $manager->driver('Tpay');
 
     expect($gateway)->toBeInstanceOf(Omnipay\Tpay\Gateway::class);
 });
@@ -27,5 +27,5 @@ it('resolves gateway by short name', function () {
 it('can have a default gateway', function () {
     $manager = getGatewayManager();
 
-    expect($manager->getDefaultGateway())->toEqual('Paynow');
+    expect($manager->getDefaultDriver())->toEqual('Paynow');
 });

@@ -3,6 +3,7 @@
 namespace CourseLink\Payments;
 
 use CourseLink\Payments\Http\HttpClient;
+use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use Omnipay\Common\GatewayFactory;
 use Illuminate\Support\Facades\Route;
@@ -30,19 +31,23 @@ class OmnipayServiceProvider extends ServiceProvider
 
     protected function bindGatewayManager(): void
     {
-        $this->app->singleton(GatewayManager::class, function ($app) {
-            return new GatewayManager($app, new GatewayFactory, new HttpClient);
+        $this->app->bind(GatewayManager::class, function ($app) {
+            $httpClient = new (config('omnipay.http_client'));
+
+            return new GatewayManager($app, new GatewayFactory, $httpClient);
         });
     }
 
     protected function registerRoutes(): void
     {
-        Route::group([
-            'prefix' => config('omnipay.path'),
-            'as' => 'omnipay.'
-        ], function () {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-        });
+        if (config('omnipay.handle_notifications')) {
+            Route::group([
+                'prefix' => config('omnipay.path'),
+                'as' => 'omnipay.'
+            ], function () {
+                $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+            });
+        }
     }
 
     protected function registerPublishing(): void

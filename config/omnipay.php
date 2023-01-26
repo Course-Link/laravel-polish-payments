@@ -34,7 +34,7 @@ return [
     |
     */
 
-    'handle_notifications' => env('OMNIPAY_NOTIFICATIONS'),
+    'handle_notifications' => env('OMNIPAY_NOTIFICATIONS', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ return [
     |
     */
 
-    'auto_payment_completion' => env('OMNIPAY_COMPLETE_PAYMENTS'),
+    'auto_payment_completion' => env('OMNIPAY_COMPLETE_PAYMENTS', true),
 
     /*
     |--------------------------------------------------------------------------
